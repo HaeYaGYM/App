@@ -83,15 +83,11 @@ public class TimerActivity extends AppCompatActivity {
             maxRoutineListCount = Math.max(maxRoutineListCount, Integer.parseInt(routineListData.get(i).get("id")));
             i++;
         }
-
         cursor.close();
 
         simpleAdapter.notifyDataSetChanged();
 
         //============================================================================== 초기화 부분
-
-
-
 
 
 
@@ -123,7 +119,7 @@ public class TimerActivity extends AppCompatActivity {
                     simpleAdapter.notifyDataSetChanged();
                 }
                 else if(result.getResultCode() == RESULT_START){
-
+                    Toast.makeText(getApplicationContext(), "루틴 완료", Toast.LENGTH_SHORT).show();
                 }
                 else
                     Toast.makeText(getApplicationContext(), "루틴 추가 취소", Toast.LENGTH_SHORT).show();
@@ -165,7 +161,6 @@ public class TimerActivity extends AppCompatActivity {
             exerciseMin++;
             exerciseSec = 0;
         }
-
         textExer.setText(String.valueOf(exerciseMin) + ':' + (exerciseSec == 0 ? "00" : "30"));
 
     }
@@ -198,7 +193,6 @@ public class TimerActivity extends AppCompatActivity {
         if(breakMin <= 0 && breakSec == 30)
             return;
 
-
         breakSec -= 30;
         if(breakSec < 0){
             breakMin -= 1;
@@ -209,6 +203,7 @@ public class TimerActivity extends AppCompatActivity {
 
     public void TimerStart(View view){
         Intent intent = new Intent(getApplicationContext(), StartRoutineActivity.class);
+        intent.putExtra("setCount", setCount);
         intent.putExtra("exerMin", exerciseMin);
         intent.putExtra("exerSec", exerciseSec);
         intent.putExtra("breakMin", breakMin);

@@ -28,9 +28,10 @@ public class StartRoutineActivity extends AppCompatActivity {
     TextView textRemainSetCount;
     Timer timer;
 
+    int remainSetcount;
     int remainExerMin, remainExerSec;
     int remainBreakMin, remainBreakSec;
-
+    int min = 0, sec = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,44 +42,76 @@ public class StartRoutineActivity extends AppCompatActivity {
         textNowAct = findViewById(R.id.textNowAct);
         textRemainTime = findViewById(R.id.textRemainTime);
         textRemainSetCount = findViewById(R.id.textRemainSetCount);
-        Intent intent = getIntent();
+        Intent intentR = getIntent();
         //Initialize...
 
-        remainExerMin = intent.getIntExtra("exerMin", 0);
-        remainExerSec = intent.getIntExtra("exerSec", 30);
-        remainBreakMin = intent.getIntExtra("breakMin", 0);
-        remainBreakSec = intent.getIntExtra("breakSec", 30);
+        remainSetcount = intentR.getIntExtra("setCount", 3);
+        remainExerMin = intentR.getIntExtra("exerMin", 0);
+        remainExerSec = intentR.getIntExtra("exerSec", 30);
+        remainBreakMin = intentR.getIntExtra("breakMin", 0);
+        remainBreakSec = intentR.getIntExtra("breakSec", 30);
+
+        min = remainExerMin;
+        sec = remainExerSec;
 
         textRemainTime.setText(remainExerMin + " : " + remainExerSec);
 
 
+
         actType = ActType.EXERCISE;         //기본 값을 EXERCISE로
+        //타이머 코드
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                int min = 0, sec = 0;
+
+                sec--;
                 switch (actType) {
-                    case EXERCISE:
-                        if (min <= 0) {
-                            remainExerMin -= 1;
-                            remainExerSec = 59;
+                    case EXERCISE:                  //운동 중일때..
+                        textRemainSetCount.setText("운동 중");
+                        if (sec < 0) {
+                            if (remainExerMin == 0 && remainExerSec == 30) {
+                                sec = 30;
+                            }
+                            else{
+                                min -= 1;
+                                sec = 59;
+                            }
                         }
-                        textRemainTime.setText(String.valueOf(remainExerMin) + " : " + String.valueOf(remainExerSec));
+                        if(min == 0 && sec <= 0){
+                            actType = ActType.BREAK;
+                            min = remainBreakMin;
+                            sec = remainBreakSec;
+                        }
                         break;
-                    case BREAK:
-                        remainBreakSec--;
-                        if (remainExerSec <= 0) {
-                            remainExerMin -= 1;
-                            remainExerSec = 59;
+                    case BREAK:                     //휴식 중일때..
+                        textRemainSetCount.setText("휴식 중");
+                        if (sec < 0) {
+                            if (remainBreakMin == 0 && remainBreakSec == 30) {
+                                sec = 30;
+                            }
+                            else{
+                                min -= 1;
+                                sec = 59;
+                            }
                         }
-                        textRemainTime.setText(String.valueOf(remainExerMin) + " : " + String.valueOf(remainExerSec));
+                        if(min == 0 && sec <= 0){
+                            actType = ActType.EXERCISE;
+                            min = remainExerMin;
+                            sec = remainExerSec;
+                            remainSetcount--;
+                            if(remainSetcount == 0) {
+                                setResult(TimerActivity.RESULT_START);
+                                finish();
+                            }
+                        }
                         break;
                 }
-                min--;
+                //텍스트 설정, 항상 초 단위는 두 자리 수로
+                textRemainTime.setText(String.valueOf(min) + " : " + ((sec >= 10) ? String.valueOf(sec) : "0" + String.valueOf(sec)));
             }
         };
 
-        timer.schedule(timerTask, 0, 1000);
+        timer.schedule(timerTask, 0, 100);
         switch (actType) {
             case EXERCISE:                          //운동 중...
 //                textNowAct.setTextColor(Color.parseColor(String.valueOf(R.color.maintitle_color)));

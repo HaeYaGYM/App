@@ -23,7 +23,6 @@ interface DBContract {
     static final String SQL_LOAD = "SELECT * FROM " + TABLE_NAME;
     static final String SQL_SELECT = "SELECT * FROM "  + TABLE_NAME + " WHERE " + ROU_NAME + "=?";
     static final String SQL_SELECT_ID = "SELECT ID FROM "  + TABLE_NAME + " WHERE " + ROU_NAME + "=? and " + ROU_EXER_TIME + "=? and" + ROU_BREAK + "=?";
-    static final String SQL_UPDATE_ID = "ALTER TABLE " + TABLE_NAME + " AUTO_INCREAMENT=1 SET @COUNT = 0 UPDATE " + TABLE_NAME + "." + ROU_ID + " = @COUNT:=COUNT+1";
 }
 
 class DBHelper extends SQLiteOpenHelper {

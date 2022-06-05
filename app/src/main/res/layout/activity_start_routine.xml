@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.050000012" />
 
-    <Button
+    <TextView
         android:id="@+id/textRemainSetCount"
         android:layout_width="200dp"
         android:layout_height="60dp"
@@ -49,6 +49,7 @@
         android:text="세트 수 : 3"
         android:textColor="@color/white"
         android:textSize="25sp"
+        android:background="@color/maintitle_color"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
