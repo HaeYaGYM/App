@@ -24,6 +24,8 @@ import java.util.HashMap;
 
 public class TimerActivity extends AppCompatActivity {
 
+    public static final int RESULT_ADD = 2;
+    public static final int RESULT_START = 3;
 
     private int setCount = 5;
     private int exerciseMin = 3, exerciseSec = 0;
@@ -97,7 +99,7 @@ public class TimerActivity extends AppCompatActivity {
         resultCallback = new ActivityResultCallback<ActivityResult>() {             //콜백객체 초기화, 리절트 이벤트 발생 시 루틴 추가해줌
             @Override
             public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() == RESULT_OK){
+                if(result.getResultCode() == RESULT_ADD){
                     Intent intent = result.getData();
                     HashMap<String, String> temp = new HashMap<>();
                     maxRoutineListCount++;
@@ -120,6 +122,9 @@ public class TimerActivity extends AppCompatActivity {
                     db.insert(DBContract.TABLE_NAME, null, values);
                     simpleAdapter.notifyDataSetChanged();
                 }
+                else if(result.getResultCode() == RESULT_START){
+
+                }
                 else
                     Toast.makeText(getApplicationContext(), "루틴 추가 취소", Toast.LENGTH_SHORT).show();
             }
@@ -128,14 +133,14 @@ public class TimerActivity extends AppCompatActivity {
         //==============================================================================
 
         routineList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-           @Override
-           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-               Toast.makeText(getApplicationContext(), routineListData.get(i).get("id"), Toast.LENGTH_LONG).show();
-               db.delete(DBContract.TABLE_NAME, "ID=?", new String[] {routineListData.get(i).get("id")});
-               routineListData.remove(i);
-               simpleAdapter.notifyDataSetChanged();
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
+                Toast.makeText(getApplicationContext(), routineListData.get(i).get("id"), Toast.LENGTH_LONG).show();
+                db.delete(DBContract.TABLE_NAME, "ID=?", new String[] {routineListData.get(i).get("id")});
+                routineListData.remove(i);
+                simpleAdapter.notifyDataSetChanged();
 
-           }
+            }
         });
 
     }
@@ -203,6 +208,13 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     public void TimerStart(View view){
+        Intent intent = new Intent(getApplicationContext(), StartRoutineActivity.class);
+        intent.putExtra("exerMin", exerciseMin);
+        intent.putExtra("exerSec", exerciseSec);
+        intent.putExtra("breakMin", breakMin);
+        intent.putExtra("breakSec", breakSec);
+        routineLauncher.launch(intent);
+
     }
 
     public void AddRoutine(View view){

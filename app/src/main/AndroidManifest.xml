@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Haeyagym">
-        <activity android:name=".AddRoutineActivity"></activity>
+        <activity
+            android:name=".StartRoutineActivity"
+            android:exported="false" />
+        <activity android:name=".AddRoutineActivity" />
         <activity
             android:name=".TimerActivity"
             android:exported="true">

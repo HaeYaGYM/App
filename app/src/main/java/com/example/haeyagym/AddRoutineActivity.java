@@ -101,7 +101,7 @@ public class AddRoutineActivity extends AppCompatActivity {
         intent.putExtra("setCount", "세트 " + String.valueOf(setCount));
         intent.putExtra("exerTime", "운동 시간 " + String.valueOf(exerciseMin) + ':' + (exerciseSec == 0 ? "00" : "30"));
         intent.putExtra("breakTime", "휴식 시간 " + String.valueOf(breakMin) + ':' + (breakSec == 0 ? "00" : "30"));
-        setResult(RESULT_OK, intent);
+        setResult(TimerActivity.RESULT_ADD, intent);
         finish();
     }
 }
