@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">haeyagym</string>
+    <string name="login_title">해야짐</string>
+    <string name="google_login">구글로 시작하기</string>
+    <string name="email_login">이메일로 시작하기</string>
+    <string name="naver_login">네이버로 시작하기</string>
+
+    <string name="sunday"><font color="#fb5046">S</font></string>
+    <array name="weekdays_custom">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>@string/sunday</item>
+    </array>
 </resources>
+

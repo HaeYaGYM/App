@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "284907408074",
+    "project_id": "haeyagym-4a63d",
+    "storage_bucket": "haeyagym-4a63d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284907408074:android:4400e561125eff08804233",
+        "android_client_info": {
+          "package_name": "com.dmu.haeyagym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284907408074-3lhg1gn2um9o7gpqhr7mb1r4ubc5vpga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmu.haeyagym",
+            "certificate_hash": "96abf86d0872f39edb2c6f53927aaf442148c4f1"
+          }
+        },
+        {
+          "client_id": "284907408074-mo6stb7h74cp0a55e1bik6ki2cu9l8ji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO355nBNJ4yPl8DWqVgFQ8B2DigsclncY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284907408074-mo6stb7h74cp0a55e1bik6ki2cu9l8ji.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
