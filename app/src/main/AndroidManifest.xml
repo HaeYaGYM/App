@@ -14,9 +14,9 @@
         <activity android:name=".CommunityActivity"></activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".StartRoutineActivity" />
-        <activity android:name=".TimerActivity" />
+        <activity android:name=".CalendarActivity" />
         <activity
-            android:name=".CalendarActivity"
+            android:name=".TimerActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>

@@ -1,273 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/btn2_2"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnstart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/timerBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#FFF"
+        app:menu="@menu/menu"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/btn2_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textRoutineName"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/nanumsquareacb"
-                android:gravity="center"
-                android:text="루틴 이름" />
-
-            <EditText
-                android:id="@+id/editTextRoutineName"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:ems="15"
-                android:textSize="15sp"
-                android:fontFamily="@font/nanumsquareacb"
-
-                android:hint="Input Routine..."
-                android:textStyle="bold"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
             android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/textSet"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/nanumsquareacb"
-                android:text="세트"
-                android:gravity="center"/>
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnstart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textRoutineName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nanumsquareacb"
+                    android:gravity="center"
+                    android:text="루틴 이름" />
+
+                <EditText
+                    android:id="@+id/editTextRoutineName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:ems="15"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/nanumsquareacb"
+
+                    android:hint="Input Routine..."
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
                 >
-                <Button
-                    android:id="@+id/btnSetMinus"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:background="@drawable/misnus1"
-                    android:onClick="SetCountMinus" />
-
                 <TextView
-                    android:id="@+id/textSetCount"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/textSet"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="5"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:textSize="24sp" />
-                <Button
-                    android:id="@+id/btnSetPlus"
-                    android:layout_width="21dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/plus1"
-                    android:onClick="SetCountPlus" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:fontFamily="@font/nanumsquareacb"
+                    android:text="세트"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+                    <Button
+                        android:id="@+id/btnSetMinus"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:background="@drawable/misnus1"
+                        android:onClick="SetCountMinus" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/textTimer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/nanumsquareacb"
-                android:text="운동시간"
-                android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/textSetCount"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textSize="24sp" />
+                    <Button
+                        android:id="@+id/btnSetPlus"
+                        android:layout_width="21dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/plus1"
+                        android:onClick="SetCountPlus" />
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:gravity="center">
-                <Button
-                    android:id="@+id/btnExerMinus"
-                    android:layout_width="19dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/misnus1"
-                    android:onClick="TimerMinus"/>
-
-                <TextView
-                    android:id="@+id/textTimerCount"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="3:00"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-                <Button
-                    android:id="@+id/btnExerPlus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/plus1"
-                    android:onClick="TimerPlus"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/textBreak"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nanumsquareacb"
-                android:text="휴식시간"
-                android:gravity="center"/>
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/textTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nanumsquareacb"
+                    android:text="운동시간"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/btnExerMinus"
+                        android:layout_width="19dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/misnus1"
+                        android:onClick="TimerMinus"/>
+
+                    <TextView
+                        android:id="@+id/textTimerCount"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="3:00"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/btnExerPlus"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/plus1"
+                        android:onClick="TimerPlus"/>
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:gravity="center">
-                <Button
-                    android:id="@+id/btnBreakMinus"
-                    android:layout_width="19dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/misnus1"
-                    android:onClick="BreakMinus"/>
-
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
                 <TextView
-                    android:id="@+id/textBreakCount"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/textBreak"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0:30"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-                <Button
-                    android:id="@+id/btnBreakPlus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/plus1"
-                    android:onClick="BreakPlus"/>
+                    android:fontFamily="@font/nanumsquareacb"
+                    android:text="휴식시간"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/btnBreakMinus"
+                        android:layout_width="19dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/misnus1"
+                        android:onClick="BreakMinus"/>
+
+                    <TextView
+                        android:id="@+id/textBreakCount"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="0:30"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/btnBreakPlus"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/plus1"
+                        android:onClick="BreakPlus"/>
+                </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:orientation="vertical"
+                />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical"
-            />
-    </LinearLayout>
 
 
-    <Button
-        android:id="@+id/btnstart"
-        android:layout_width="166dp"
-        android:layout_height="45dp"
-        android:background="@drawable/login_shape"
-        android:fontFamily="@font/nanumsquareaceb"
-        android:text="시작"
-        android:textColor="@color/white"
-        android:onClick="TimerStart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.478" />
-
-
-
-
-
-    <TextView
-        android:id="@+id/textExercise"
-        android:layout_width="95dp"
-        android:layout_height="28dp"
-        android:text="오늘의 운동"
-        android:textSize="18sp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAdd"
-        app:layout_constraintHorizontal_bias="0.073"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnstart"
-        app:layout_constraintVertical_bias="0.142" />
-
-    <ListView
-        android:id="@+id/routineList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginVertical="5dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
-
-    <LinearLayout
-        android:layout_width="70dp"
-        android:layout_height="28dp"
-        android:orientation="horizontal"
-        android:id="@+id/btnAdd"
-        android:onClick="AddRoutine"
-        android:background="@drawable/rounded_stroke_maintitle_color"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnstart"
-        app:layout_constraintVertical_bias="0.142">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-
-            android:gravity="center"
+        <Button
+            android:id="@+id/btnstart"
+            android:layout_width="166dp"
+            android:layout_height="45dp"
+            android:background="@drawable/login_shape"
             android:fontFamily="@font/nanumsquareaceb"
-            android:text="추가"/>
+            android:text="시작"
+            android:textColor="@color/white"
+            android:onClick="TimerStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.478" />
 
-        <ImageView
-            android:id="@+id/imageView2"
+
+
+
+
+        <TextView
+            android:id="@+id/textExercise"
+            android:layout_width="95dp"
+            android:layout_height="28dp"
+            android:text="오늘의 운동"
+            android:textSize="18sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            app:layout_constraintHorizontal_bias="0.073"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnstart"
+            app:layout_constraintVertical_bias="0.142" />
+
+        <ListView
+            android:id="@+id/routineList"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/plus1" />
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginTop="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
 
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="28dp"
+            android:orientation="horizontal"
+            android:id="@+id/btnAdd"
+            android:onClick="AddRoutine"
+            android:background="@drawable/rounded_stroke_maintitle_color"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.954"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnstart"
+            app:layout_constraintVertical_bias="0.142">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:gravity="center"
+                android:fontFamily="@font/nanumsquareaceb"
+                android:text="추가"/>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/plus1" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

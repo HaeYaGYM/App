@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_frag1"
+        android:icon="@drawable/appicon"
+        android:title="item_1"/>
+    <item
+        android:id="@+id/item_frag2"
+        android:icon="@drawable/appicon"
+        android:title="item_2"/>
+    <item
+        android:id="@+id/item_frag3"
+        android:icon="@drawable/appicon"
+        android:title="item_3"/>
+    <item
+        android:id="@+id/item_frag4"
+        android:icon="@drawable/appicon"
+        android:title="item_4"/>
+</menu>

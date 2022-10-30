@@ -5,33 +5,29 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.metrics.Event;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.behavior.SwipeDismissBehavior;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class TimerActivity extends AppCompatActivity {
 
@@ -58,6 +54,8 @@ public class TimerActivity extends AppCompatActivity {
     private ActivityResultContract<Intent, ActivityResult> resultContract;
     private ActivityResultCallback<ActivityResult> resultCallback;
     private ActivityResultLauncher<Intent> routineLauncher;
+
+    private BottomNavigationView bottomNav;
 
 
     @Override
@@ -119,6 +117,7 @@ public class TimerActivity extends AppCompatActivity {
         textBreak = findViewById(R.id.textBreakCount);
         routineList = findViewById(R.id.routineList);
         editTextRoutineName = findViewById(R.id.editTextRoutineName);
+        bottomNav = findViewById(R.id.timerBottomNav);
 
         //Initialize View Objects...
 
@@ -160,8 +159,12 @@ public class TimerActivity extends AppCompatActivity {
 
         //초기화시 아이디간 공백이 존재해도 가장 큰 아이디 값을 초기 값으로 가짐. Ex) id=5, id=9가 있을 경우 최초 maxRoutineListCount는 9를 가짐
         cursor = db.rawQuery("SELECT MAX(" + DBContract.ROU_ID + ") FROM " + DBContract.TABLE_NAME, null);
-        while (cursor.moveToNext()){
-            maxRoutineListCount = Integer.parseInt(cursor.getString(0));
+        if(cursor != null){
+            while (cursor.moveToNext()){
+                maxRoutineListCount = Integer.parseInt(cursor.getString(0));
+            }
+        }else{
+            maxRoutineListCount = 0;
         }
 
 //        maxRoutineListCount = Math.max(maxRoutineListCount, Integer.parseInt(routineListData.get(i).get("id")));
@@ -170,6 +173,33 @@ public class TimerActivity extends AppCompatActivity {
         cursor.close();
         simpleAdapter.notifyDataSetChanged();
         //
+
+        //바텀 네비게이션 초기화
+        bottomNav.setSelectedItemId(R.id.item_frag1);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()){
+                    case R.id.item_frag1:
+                        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.item_frag2:
+                        intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_frag3:
+                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.item_frag4:
+                        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+        //
+
         //Initialize...
     }
 

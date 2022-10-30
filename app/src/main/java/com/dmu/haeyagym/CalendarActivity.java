@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -45,6 +48,9 @@ public class CalendarActivity extends AppCompatActivity {
     private SimpleAdapter simpleAdapter;
     ArrayList<CalendarDay> dateArrayList;
 
+    //Bottom Navigation
+    private BottomNavigationView bottomNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendarListData.clear();
         calendarList.setAdapter(simpleAdapter);
+        bottomNav = findViewById(R.id.calendarBottomNav);
         //
 
 
@@ -112,6 +119,34 @@ public class CalendarActivity extends AppCompatActivity {
             }
         }
         materialCalendarView.addDecorator(new EventDecorator(ContextCompat.getColor(this, R.color.maintitle_color_light), dateArrayList));
+        //
+
+        //바텀 네비게이션 초기화
+
+        //현재 선택된 액티비티
+        bottomNav.setSelectedItemId(R.id.item_frag2);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()){
+                    case R.id.item_frag1:
+                        intent = new Intent(getApplicationContext(), TimerActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_frag2:
+
+                        break;
+                    case R.id.item_frag3:
+                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.item_frag4:
+                        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
         //
     }
 
