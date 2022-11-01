@@ -141,7 +141,7 @@ public class StartRoutineActivity extends AppCompatActivity {
             }
         };
 
-        timer.schedule(timerTask, 0, 1000);
+        timer.schedule(timerTask, 0, 10);
     }
 
     private void Init(){

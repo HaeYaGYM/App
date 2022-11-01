@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Haeyagym">
-        <activity android:name=".CommunityActivity"></activity>
+        <activity android:name=".CheckHeartbeatActivity"></activity>
+        <activity android:name=".CommunityActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".StartRoutineActivity" />
         <activity android:name=".CalendarActivity" />

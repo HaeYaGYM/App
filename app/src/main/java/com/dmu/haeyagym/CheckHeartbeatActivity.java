@@ -6,50 +6,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class CheckHeartbeatActivity extends AppCompatActivity {
 
-public class CommunityActivity extends AppCompatActivity {
-
-    private ArrayList<HashMap<String, String>> listViewGroupData;
-
-    private ListView listViewGroup;
-    private SimpleAdapter simpleAdapter;
-
+    //Bottom Navigation
     private BottomNavigationView bottomNav;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_community);
+        setContentView(R.layout.activity_check_heartbeat);
 
         Init();
     }
 
-    private void Init(){
-        listViewGroup = findViewById(R.id.listViewGroup);
-        bottomNav = findViewById(R.id.communityBottomNav);
+    void Init(){
+        //Initial View Object...
+        bottomNav = findViewById(R.id.heartBeatBottomNav);
+        //
 
-        listViewGroupData = new ArrayList<>();
 
-        simpleAdapter = new SimpleAdapter(this, listViewGroupData, R.layout.group_item,
-                new String[] {"imagePictogram", "textRange", "textGroupName", "buttonEnterGroup"},
-                new int[] {R.id.imagePictogram, R.id.textRange, R.id.textGroupName, R.id.buttonEnterGroup});
-
-        listViewGroupData.clear();
-        listViewGroupData = GetGroupList();
-
-        listViewGroup.setAdapter(simpleAdapter);
-        simpleAdapter.notifyDataSetChanged();
 
         //바텀 네비게이션
-        bottomNav.setSelectedItemId(R.id.item_frag4);
+        bottomNav.setSelectedItemId(R.id.item_frag3);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -80,11 +61,5 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
         //
-    }
-
-    private ArrayList<HashMap<String, String>> GetGroupList(){
-        ArrayList<HashMap<String, String>> temp = new ArrayList<>();
-
-        return temp;
     }
 }

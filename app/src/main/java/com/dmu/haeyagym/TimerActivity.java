@@ -144,7 +144,7 @@ public class TimerActivity extends AppCompatActivity {
         while(cursor.moveToNext()) {
             HashMap<String, String> temp = new HashMap<>();
 
-            Toast.makeText(getApplicationContext(),sDF.format(new Date(System.currentTimeMillis())) + ", " + cursor.getString(5), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),sDF.format(new Date(System.currentTimeMillis())) + ", " + cursor.getString(5), Toast.LENGTH_SHORT).show();
             if(!sDF.format(new Date(System.currentTimeMillis())).equals(cursor.getString(5)))
                 continue;
 
@@ -159,7 +159,7 @@ public class TimerActivity extends AppCompatActivity {
 
         //초기화시 아이디간 공백이 존재해도 가장 큰 아이디 값을 초기 값으로 가짐. Ex) id=5, id=9가 있을 경우 최초 maxRoutineListCount는 9를 가짐
         cursor = db.rawQuery("SELECT MAX(" + DBContract.ROU_ID + ") FROM " + DBContract.TABLE_NAME, null);
-        if(cursor != null){
+        if(cursor != null || cursor.getCount() == 0){
             while (cursor.moveToNext()){
                 maxRoutineListCount = Integer.parseInt(cursor.getString(0));
             }
@@ -182,20 +182,27 @@ public class TimerActivity extends AppCompatActivity {
                 Intent intent;
                 switch (item.getItemId()){
                     case R.id.item_frag1:
-                        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-                        break;
+                        intent = new Intent(getApplicationContext(), TimerActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag2:
                         intent = new Intent(getApplicationContext(), CalendarActivity.class);
                         startActivity(intent);
-                        break;
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag3:
-                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
-                        break;
+                        intent = new Intent(getApplicationContext(), CheckHeartbeatActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag4:
-                        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
-                        break;
+                        intent = new Intent(getApplicationContext(), CommunityActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                 }
-                return true;
+                return false;
             }
         });
         //

@@ -133,18 +133,25 @@ public class CalendarActivity extends AppCompatActivity {
                     case R.id.item_frag1:
                         intent = new Intent(getApplicationContext(), TimerActivity.class);
                         startActivity(intent);
-                        break;
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag2:
-
-                        break;
+                        intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag3:
-                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
-                        break;
+                        intent = new Intent(getApplicationContext(), CheckHeartbeatActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.item_frag4:
-                        Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
-                        break;
+                        intent = new Intent(getApplicationContext(), CommunityActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        return true;
                 }
-                return true;
+                return false;
             }
         });
         //
