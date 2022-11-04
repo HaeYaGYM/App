@@ -217,6 +217,7 @@
             android:onClick="TimerStart"
             android:text="시작"
             android:textColor="@color/white" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -158,10 +159,11 @@ public class TimerActivity extends AppCompatActivity {
         }
 
         //초기화시 아이디간 공백이 존재해도 가장 큰 아이디 값을 초기 값으로 가짐. Ex) id=5, id=9가 있을 경우 최초 maxRoutineListCount는 9를 가짐
-        cursor = db.rawQuery("SELECT MAX(" + DBContract.ROU_ID + ") FROM " + DBContract.TABLE_NAME, null);
-        if(cursor != null || cursor.getCount() == 0){
+        cursor = db.rawQuery("SELECT " + DBContract.ROU_ID + " FROM " + DBContract.TABLE_NAME, null);
+        Log.d("error", String.valueOf(cursor.getCount()));
+        if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
-                maxRoutineListCount = Integer.parseInt(cursor.getString(0));
+                maxRoutineListCount = Math.max(maxRoutineListCount, Integer.parseInt(cursor.getString(0)));
             }
         }else{
             maxRoutineListCount = 0;
