@@ -74,7 +74,7 @@
             android:layout_weight="0.7"
             android:background="@drawable/login_shape"
             android:fontFamily="@font/nanumsquareaceb"
-            android:onClick="TimerStart"
+            android:onClick="StartingCheckBeatRate"
             android:text="시작"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
