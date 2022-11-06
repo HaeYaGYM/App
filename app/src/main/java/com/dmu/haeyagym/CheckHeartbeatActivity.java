@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,13 +23,10 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.Buffer;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.UUID;
 
@@ -62,7 +61,15 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
 
     private InputStream bluetoothInput;
     private OutputStream bluetoothOutput;
+    private String readMessage;
     //
+    private Handler bluetoothHandler = new Handler(Looper.getMainLooper()){
+        public void handleMessage(Message msg){
+            readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
+            readMessage = readMessage.trim();
+            Log.d("Bluetooth", readMessage);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +160,9 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         //
 
         UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+
         bluetoothWatch = btAdapter.getRemoteDevice(bluetoothAddress);
+        Log.d("Watch", bluetoothWatch.getName() + bluetoothWatch.getAddress());
         try {
             bluetoothSocket = bluetoothWatch.createRfcommSocketToServiceRecord(uuid);
             bluetoothSocket.connect();
@@ -161,13 +170,12 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        getBluetoothBuffer();
+        if(bluetoothWatch.getBondState() == BluetoothDevice.BOND_BONDED){
+            GetBluetoothBuffer();
+        }
     }
 
-    public void getBluetoothBuffer(){
-
-        byte[] buffer = new byte[1024];
-        int byteAvailable = 0;
+    public void GetBluetoothBuffer(){
 
         if(bluetoothSocket.isConnected()){
             try {
@@ -178,14 +186,89 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                 finish();
             }
         }
-        while (true){
-            try {
-                byteAvailable = bluetoothInput.read(buffer);
-                String strBuf = new String(buffer, 0, byteAvailable);
-                Log.d("Byte", strBuf);
-                SystemClock.sleep(1);
-            }catch (IOException e){ e.printStackTrace();}
+        else{
+            textCheckingStatus.setText("연결 실패");
+            return;
         }
+        byte[] buffer = new byte[1024];
+        int bytes;
+
+        textCheckingStatus.setText("측정 중...");
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (Thread.currentThread().isInterrupted()){
+//                    int byteAvailable = 0;
+//                    try {
+//                        byteAvailable = bluetoothInput.available();
+//                    }catch (IOException e){e.printStackTrace();}
+//                    Log.d("Thread", "Data" + byteAvailable);
+//                }
+//            }
+//        });
+//        thread.start();
+
+        while (true) {
+            try {
+                bytes = bluetoothInput.available();
+                if (bytes != 0) {
+                    SystemClock.sleep(100);
+                    bytes = bluetoothInput.read(buffer, 0, bytes);
+                    bluetoothHandler.obtainMessage(1, bytes, -1, buffer).sendToTarget();
+                }
+            } catch (IOException e) {
+                String sMsg = "데이터 읽기 중 오류가 발생했습니다.";
+                byte[] buf = sMsg.getBytes();
+                bluetoothHandler.obtainMessage(2, buf.length, -1, buf).sendToTarget();
+                break;
+            }
+        }
+
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                int byteLength = 0;
+//                while (!Thread.currentThread().isInterrupted()){
+//                    try {
+//                        byteLength = bluetoothInput.available();
+//                        if(byteLength > 0){
+//                            byte[] buffer = new byte[byteLength];
+//                            bluetoothInput.read(buffer);
+//                            for (int i = 0; i < byteLength; i++){
+//                                byte data = buffer[i];
+//                                if(data != '\n'){
+//
+//                                }
+//                            }
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//
+//        while (true){
+//            try {
+//                byteLength = bluetoothInput.available();
+//                if(byteAvailable > 0){
+//                    byte[] packetBytes = new byte[]
+//                    buffer = new byte[1024];
+//                    SystemClock.sleep(100);
+//                    byteAvailable = bluetoothInput.available();
+//                    byteAvailable = bluetoothInput.read(buffer, 0, byteAvailable);
+//
+//                    textBeatRate.setText(strBuf + "BPM");
+//                }
+//
+//            }catch (IOException e){ e.printStackTrace();}
+//        }
     }
 
     @Override
