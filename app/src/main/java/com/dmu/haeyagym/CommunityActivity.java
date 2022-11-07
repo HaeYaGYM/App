@@ -10,6 +10,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +25,9 @@ public class CommunityActivity extends AppCompatActivity {
     private SimpleAdapter simpleAdapter;
 
     private BottomNavigationView bottomNav;
-
+    private FirebaseDatabase firebaseDB;
+    private DatabaseReference dbRef;
+    private ChildEventListener childEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,8 @@ public class CommunityActivity extends AppCompatActivity {
         Init();
     }
 
-    private void Init(){
+    private void Init() {
+        //Initial View Objects...
         listViewGroup = findViewById(R.id.listViewGroup);
         bottomNav = findViewById(R.id.communityBottomNav);
 
@@ -44,7 +50,8 @@ public class CommunityActivity extends AppCompatActivity {
 
         listViewGroupData.clear();
         listViewGroupData = GetGroupList();
-
+        //
+        
         listViewGroup.setAdapter(simpleAdapter);
         simpleAdapter.notifyDataSetChanged();
 
@@ -83,8 +90,10 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
     private ArrayList<HashMap<String, String>> GetGroupList(){
+        firebaseDB = FirebaseDatabase.getInstance();
+        dbRef = firebaseDB.getReference("brdid");
+        
         ArrayList<HashMap<String, String>> temp = new ArrayList<>();
-
         return temp;
     }
 }

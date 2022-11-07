@@ -57,7 +57,7 @@
             android:elevation="35dp"
             android:fontFamily="@font/nanumsquareacb"
             android:gravity="center"
-            android:text="100BPM"
+            android:text="0BPM"
             android:textColor="@color/maintitle_color"
             android:textSize="35sp"
             app:layout_constraintBottom_toBottomOf="parent"

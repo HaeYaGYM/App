@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,9 +42,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
     private TextView textBeatRate;
     private BluetoothAdapter btAdapter;
     private Button btnStartingBeatRate;
-
     //
-
 
     //Bluetooth Connection Associated
     private final static int REQUEST_ENABLE_BT = 1;
@@ -82,6 +83,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     void Init(){
         //Initial View Object...
         bottomNav = findViewById(R.id.heartBeatBottomNav);
@@ -126,10 +128,13 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         //
 
         //블루투스 권한 사용
-        int bluetoothPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
-        if(bluetoothPermission == PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, permissionList, 1);
-            btAdapter = BluetoothAdapter.getDefaultAdapter();
+        GetBluetoothAdapter();
+
+        if(btAdapter == null){
+            textCheckingStatus.setText("페어링 실패");
+            textCheckingStatus.setTextColor(getResources().getColor(R.color.gray));
+            Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            return;
         }
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -139,7 +144,21 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
 
     }
 
+    private void GetBluetoothAdapter(){
+        int bluetoothPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
+        if(bluetoothPermission == PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, permissionList, 1);
+            btAdapter = BluetoothAdapter.getDefaultAdapter();
+        }
+    }
+
     public void StartingCheckBeatRate(View view) {
+        GetBluetoothAdapter();
+
+        if(btAdapter == null){
+            Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //주변 기기 탐색, 가져옴
         if(btAdapter.isEnabled()){
@@ -148,6 +167,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                 for (BluetoothDevice device: pairedDevices ) {
                     Log.d("BlueTooth", device.getName());
                     if(device.getName().trim().equals("HC-06")){
+                        textCheckingStatus.setTextColor(getResources().getColor(R.color.maintitle_color));
                         textCheckingStatus.setText("찾음");
                         bluetoothAddress = device.getAddress();
                         break;
