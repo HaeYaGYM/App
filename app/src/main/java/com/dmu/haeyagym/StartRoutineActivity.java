@@ -154,7 +154,6 @@ public class StartRoutineActivity extends AppCompatActivity {
         wave = findViewById(R.id.wave);
         //Initialize View Objects...
 
-
         dbHelper = new DBHelper(this);
         db = dbHelper.getReadableDatabase();
 

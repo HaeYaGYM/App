@@ -57,20 +57,12 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             Manifest.permission.BLUETOOTH_PRIVILEGED
     };
     private String bluetoothAddress;
+    private int readBufferPos;
     private BluetoothSocket bluetoothSocket;
     private BluetoothDevice bluetoothWatch;
 
     private InputStream bluetoothInput;
     private OutputStream bluetoothOutput;
-    private String readMessage;
-    //
-    private Handler bluetoothHandler = new Handler(Looper.getMainLooper()){
-        public void handleMessage(Message msg){
-            readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
-            readMessage = readMessage.trim();
-            Log.d("Bluetooth", readMessage);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +72,10 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         Init();
 
 
-
     }
 
     @SuppressLint("ResourceAsColor")
-    void Init(){
+    void Init() {
         //Initial View Object...
         bottomNav = findViewById(R.id.heartBeatBottomNav);
         textBeatRate = findViewById(R.id.textBeatRate);
@@ -93,14 +84,19 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         //
 
 
-
         //바텀 네비게이션
         bottomNav.setSelectedItemId(R.id.item_frag3);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                try {
+                    if(bluetoothSocket != null)
+                        bluetoothSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Intent intent;
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.item_frag1:
                         intent = new Intent(getApplicationContext(), TimerActivity.class);
                         startActivity(intent);
@@ -130,7 +126,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         //블루투스 권한 사용
         GetBluetoothAdapter();
 
-        if(btAdapter == null){
+        if (btAdapter == null) {
             textCheckingStatus.setText("페어링 실패");
             textCheckingStatus.setTextColor(getResources().getColor(R.color.gray));
             Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
@@ -138,30 +134,50 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         }
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
         //
 
     }
 
-    private void GetBluetoothAdapter(){
+    private void GetBluetoothAdapter() {
         int bluetoothPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
-        if(bluetoothPermission == PackageManager.PERMISSION_GRANTED){
+        if (bluetoothPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissionList, 1);
-            btAdapter = BluetoothAdapter.getDefaultAdapter();
         }
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     public void StartingCheckBeatRate(View view) {
         GetBluetoothAdapter();
 
-        if(btAdapter == null){
+        if (btAdapter == null) {
             Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         //주변 기기 탐색, 가져옴
-        if(btAdapter.isEnabled()){
+        if (btAdapter.isEnabled()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
             if(pairedDevices.size() > 0){
                 for (BluetoothDevice device: pairedDevices ) {
@@ -191,16 +207,20 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if(bluetoothWatch.getBondState() == BluetoothDevice.BOND_BONDED){
+
             GetBluetoothBuffer();
         }
     }
 
     public void GetBluetoothBuffer(){
-
+        byte[] buffer = new byte[1024];
+        readBufferPos = 0;
+        Handler handler = new Handler();
         if(bluetoothSocket.isConnected()){
+            textCheckingStatus.setText("측정 중...");
             try {
-                bluetoothOutput = bluetoothSocket.getOutputStream();
                 bluetoothInput = bluetoothSocket.getInputStream();
+                bluetoothOutput = bluetoothSocket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
                 finish();
@@ -210,85 +230,46 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             textCheckingStatus.setText("연결 실패");
             return;
         }
-        byte[] buffer = new byte[1024];
-        int bytes;
 
-        textCheckingStatus.setText("측정 중...");
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (Thread.currentThread().isInterrupted()){
-//                    int byteAvailable = 0;
-//                    try {
-//                        byteAvailable = bluetoothInput.available();
-//                    }catch (IOException e){e.printStackTrace();}
-//                    Log.d("Thread", "Data" + byteAvailable);
-//                }
-//            }
-//        });
-//        thread.start();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted()){
+                    int byteAvailable = 0;
+                    try {
+                        byteAvailable = bluetoothInput.available();
+                        if(byteAvailable > 0){
+                            byte[] bytes = new byte[byteAvailable];
+                            bluetoothInput.read(bytes);
+                            for (int i = 0; i < byteAvailable; i++){
+                                byte comp = bytes[i];
+                                if(comp == '\n'){
+                                    byte[] encodedByte = new byte[readBufferPos];
+                                    System.arraycopy(buffer, 0, encodedByte, 0, encodedByte.length);
+                                    String text = new String(encodedByte, "US-ASCII");
+                                    readBufferPos = 0;
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textBeatRate.setText(text + "BPM");
+                                        }
+                                    });
+                                }else{
+                                    buffer[readBufferPos++] = comp;
+                                }
+                            }
+                        }
+                    }catch (IOException e){e.printStackTrace();}
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-        while (true) {
-            try {
-                bytes = bluetoothInput.available();
-                if (bytes != 0) {
-                    SystemClock.sleep(100);
-                    bytes = bluetoothInput.read(buffer, 0, bytes);
-                    bluetoothHandler.obtainMessage(1, bytes, -1, buffer).sendToTarget();
                 }
-            } catch (IOException e) {
-                String sMsg = "데이터 읽기 중 오류가 발생했습니다.";
-                byte[] buf = sMsg.getBytes();
-                bluetoothHandler.obtainMessage(2, buf.length, -1, buf).sendToTarget();
-                break;
             }
-        }
-
-//
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                int byteLength = 0;
-//                while (!Thread.currentThread().isInterrupted()){
-//                    try {
-//                        byteLength = bluetoothInput.available();
-//                        if(byteLength > 0){
-//                            byte[] buffer = new byte[byteLength];
-//                            bluetoothInput.read(buffer);
-//                            for (int i = 0; i < byteLength; i++){
-//                                byte data = buffer[i];
-//                                if(data != '\n'){
-//
-//                                }
-//                            }
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//
-//                }
-//            }
-//        });
-//
-//        thread.start();
-//
-//        while (true){
-//            try {
-//                byteLength = bluetoothInput.available();
-//                if(byteAvailable > 0){
-//                    byte[] packetBytes = new byte[]
-//                    buffer = new byte[1024];
-//                    SystemClock.sleep(100);
-//                    byteAvailable = bluetoothInput.available();
-//                    byteAvailable = bluetoothInput.read(buffer, 0, byteAvailable);
-//
-//                    textBeatRate.setText(strBuf + "BPM");
-//                }
-//
-//            }catch (IOException e){ e.printStackTrace();}
-//        }
+        });
+        thread.start();
     }
 
     @Override

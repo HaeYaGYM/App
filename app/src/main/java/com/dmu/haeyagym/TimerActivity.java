@@ -72,9 +72,11 @@ public class TimerActivity extends AppCompatActivity {
             public void onActivityResult(ActivityResult result) {
                 switch (result.getResultCode()){
                     case RESULT_OK:
+                        simpleAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), "루틴 끝", Toast.LENGTH_SHORT).show();
                         break;
                     case RESULT_CANCELED:
+                        simpleAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), "루틴 중지", Toast.LENGTH_SHORT).show();
                         break;
                     default:
@@ -146,7 +148,8 @@ public class TimerActivity extends AppCompatActivity {
             HashMap<String, String> temp = new HashMap<>();
 
             //Toast.makeText(getApplicationContext(),sDF.format(new Date(System.currentTimeMillis())) + ", " + cursor.getString(5), Toast.LENGTH_SHORT).show();
-            if(!sDF.format(new Date(System.currentTimeMillis())).equals(cursor.getString(5)))
+            if(!sDF.format(new Date(System.currentTimeMillis())).equals(cursor.getString(5))
+                    || Integer.parseInt(cursor.getString(6)) == 1)
                 continue;
 
             temp.put("id", cursor.getString(0));

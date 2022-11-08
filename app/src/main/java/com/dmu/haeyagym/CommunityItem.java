@@ -6,6 +6,7 @@ public class CommunityItem {
     private String date;
     private String region;
     private String description;
+    private String categoty;
 
     public String getTitle() {
         return title;
@@ -43,13 +44,9 @@ public class CommunityItem {
         this.categoty = categoty;
     }
 
-
     public String getCategoty() {
         return categoty;
     }
-
-    private String categoty;
-
 
     public String getUid() {
         return uid;
