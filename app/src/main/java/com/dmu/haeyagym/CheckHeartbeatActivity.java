@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,11 +59,16 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
     };
     private String bluetoothAddress;
     private int readBufferPos;
+    private ArrayList<Integer> beatList;
+    private int maxRate;
+    private double avgRate;
+    private boolean isChecking;
+
     private BluetoothSocket bluetoothSocket;
     private BluetoothDevice bluetoothWatch;
-
     private InputStream bluetoothInput;
     private OutputStream bluetoothOutput;
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +78,27 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         Init();
 
 
+        //블루투스 권한 사용
+        GetBluetoothAdapter();
+
+        if (btAdapter == null) {
+            textCheckingStatus.setText("페어링 실패");
+            textCheckingStatus.setTextColor(getResources().getColor(R.color.gray));
+            Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!btAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        GetBluetoothDevice();
+        BluetoothConnect();
+        //
     }
 
-    @SuppressLint("ResourceAsColor")
     void Init() {
         //Initial View Object...
         bottomNav = findViewById(R.id.heartBeatBottomNav);
@@ -83,6 +107,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         btnStartingBeatRate = findViewById(R.id.btnStartingBeatRate);
         //
 
+        isChecking = false;
 
         //바텀 네비게이션
         bottomNav.setSelectedItemId(R.id.item_frag3);
@@ -90,7 +115,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 try {
-                    if(bluetoothSocket != null)
+                    if (bluetoothSocket != null)
                         bluetoothSocket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -123,31 +148,6 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         });
         //
 
-        //블루투스 권한 사용
-        GetBluetoothAdapter();
-
-        if (btAdapter == null) {
-            textCheckingStatus.setText("페어링 실패");
-            textCheckingStatus.setTextColor(getResources().getColor(R.color.gray));
-            Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!btAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
-        //
-
     }
 
     private void GetBluetoothAdapter() {
@@ -166,39 +166,25 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             return;
         }
 
-        //주변 기기 탐색, 가져옴
-        if (btAdapter.isEnabled()) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-            if(pairedDevices.size() > 0){
-                for (BluetoothDevice device: pairedDevices ) {
-                    Log.d("BlueTooth", device.getName());
-                    if(device.getName().trim().equals("HC-06")){
-                        textCheckingStatus.setTextColor(getResources().getColor(R.color.maintitle_color));
-                        textCheckingStatus.setText("찾음");
-                        bluetoothAddress = device.getAddress();
-                        break;
-                    }else{
-                        textCheckingStatus.setText("연동 실패");
-                    }
-                }
+        GetBluetoothDevice();
+        if(isChecking == false){
+            BluetoothConnect();
+        }
+        else {
+            try {
+                BluetoothDisconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        //
+    }
 
+    private void BluetoothConnect() {
         UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         bluetoothWatch = btAdapter.getRemoteDevice(bluetoothAddress);
-        Log.d("Watch", bluetoothWatch.getName() + bluetoothWatch.getAddress());
         try {
             bluetoothSocket = bluetoothWatch.createRfcommSocketToServiceRecord(uuid);
             bluetoothSocket.connect();
@@ -206,10 +192,15 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(bluetoothWatch.getBondState() == BluetoothDevice.BOND_BONDED){
-
+        if (bluetoothWatch.getBondState() == BluetoothDevice.BOND_BONDED) {
+            beatList = new ArrayList<>();
             GetBluetoothBuffer();
         }
+    }
+
+    private void BluetoothDisconnect() throws IOException {
+        bluetoothSocket.close();
+        ResultBeatRate();
     }
 
     public void GetBluetoothBuffer(){
@@ -252,6 +243,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             textBeatRate.setText(text + "BPM");
+                                            beatList.add(Integer.parseInt(text.trim()));
                                         }
                                     });
                                 }else{
@@ -261,7 +253,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                         }
                     }catch (IOException e){e.printStackTrace();}
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -271,6 +263,48 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+    private void GetBluetoothDevice(){
+        //주변 기기 탐색, 가져옴
+        if (btAdapter.isEnabled()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+            if(pairedDevices.size() > 0){
+                for (BluetoothDevice device: pairedDevices ) {
+                    Log.d("BlueTooth", device.getName());
+                    if(device.getName().trim().equals("HC-06")){
+                        textCheckingStatus.setTextColor(getResources().getColor(R.color.maintitle_color));
+                        textCheckingStatus.setText("찾음");
+                        bluetoothAddress = device.getAddress();
+                        isChecking = !isChecking;
+                        break;
+                    }else{
+                        textCheckingStatus.setText("연동 실패");
+                    }
+                }
+            }
+        }
+        //
+    }
+
+    private void ResultBeatRate(){
+        if(beatList.isEmpty())
+            return;
+
+        int sum = 0;
+        maxRate = beatList.get(0);
+        for (int item: beatList) {
+            sum += item;
+            if(maxRate < item)
+                maxRate = item;
+        }
+        avgRate = sum / beatList.size();
+        beatList.clear();
+
+    }
+
 
     @Override
     protected void onDestroy(){
