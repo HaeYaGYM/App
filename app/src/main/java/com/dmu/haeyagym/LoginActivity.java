@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
     public void btnListener() {
         btngoogle.setOnClickListener(v -> {
             Toast.makeText(this, "클릭 !", Toast.LENGTH_SHORT).show();
-            Log.d("fuck", "0");
             signIn();
         });
     }
@@ -98,13 +97,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn() {
-        Log.d("fuck", "0-1");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void updateUI(FirebaseUser user) {
-        Log.d("fuck", "2");
         Intent intent = new Intent(this, CommunityActivity.class);
         startActivity(intent);
     }

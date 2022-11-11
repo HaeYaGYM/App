@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="region">
+        <item>서울</item>
+        <item>인천</item>
+        <item>대구</item>
+        <item>대전</item>
+        <item>강원</item>
+        <item>부산</item>
+        <item>울산</item>
+    </string-array>
+</resources>

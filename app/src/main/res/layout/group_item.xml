@@ -24,16 +24,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textRange"
+            android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:fontFamily="@font/nanumsquareacr"
-            android:text="1Km 이내" />
+            android:text="같이 헬스해요" />
 
         <TextView
-            android:id="@+id/textGroupName"
+            android:id="@+id/textCategory"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

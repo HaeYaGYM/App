@@ -44,7 +44,6 @@
                     android:ems="15"
                     android:fontFamily="@font/nanumsquareacb"
                     android:hint="Input Routine..."
-
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>

@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,11 +27,11 @@ public class CommunityActivity extends AppCompatActivity {
 
     private ListView listViewGroup;
     private SimpleAdapter simpleAdapter;
+    private TextView test;
 
     private BottomNavigationView bottomNav;
     private FirebaseDatabase firebaseDB;
     private DatabaseReference dbRef;
-    private ChildEventListener childEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,30 @@ public class CommunityActivity extends AppCompatActivity {
         //Initial View Objects...
         listViewGroup = findViewById(R.id.listViewGroup);
         bottomNav = findViewById(R.id.communityBottomNav);
+        test = findViewById(R.id.textSub);
 
         listViewGroupData = new ArrayList<>();
 
         simpleAdapter = new SimpleAdapter(this, listViewGroupData, R.layout.group_item,
-                new String[] {"imagePictogram", "textRange", "textGroupName", "buttonEnterGroup"},
-                new int[] {R.id.imagePictogram, R.id.textRange, R.id.textGroupName, R.id.buttonEnterGroup});
+                new String[] {"textTitle", "textCategory"},
+                new int[] {R.id.textTitle, R.id.textCategory});
 
         listViewGroupData.clear();
+        listViewGroup.setAdapter(simpleAdapter);
+
         listViewGroupData = GetGroupList();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < listViewGroupData.size(); i++){
+                    for (String str : listViewGroupData.get(i).values()){
+                        test.setText(str);
+                    }
+                }
+            }
+        });
+        thread.start();
         //
         
         listViewGroup.setAdapter(simpleAdapter);
@@ -89,11 +108,41 @@ public class CommunityActivity extends AppCompatActivity {
         //
     }
 
-    private ArrayList<HashMap<String, String>> GetGroupList(){
+    private ArrayList<HashMap<String, String>> GetGroupList() {
         firebaseDB = FirebaseDatabase.getInstance();
-        dbRef = firebaseDB.getReference("brdid");
-        
+        dbRef = firebaseDB.getReference("board");
+
+
         ArrayList<HashMap<String, String>> temp = new ArrayList<>();
+
+        dbRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        HashMap<String, String> datas = (HashMap<String, String>)snapshot.getValue();
+                        HashMap<String, String> temp = new HashMap<>();
+                        temp.put("imagePictogram", datas.get("Category"));
+                        temp.put("textTitle", datas.get("Title"));
+                        temp.put("textGroupName", datas.get("Category"));
+                        Log.d("Test",temp.toString());
+                        listViewGroupData.add(temp);
+                    }
+                    simpleAdapter.notifyDataSetChanged();
+//                    for (int i = 0; i < temp.size(); i++){
+//                        for (String str : temp.get(i).values()){
+//                            Log.d("Taew", str);
+//                        }
+//                    }
+                }
+            }
+        });
+
         return temp;
+    }
+
+    public void AddGroup(View view) {
+        Intent intent = new Intent(this, AddGroupActivity.class);
+        startActivity(intent);
     }
 }
