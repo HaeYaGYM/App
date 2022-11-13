@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +29,8 @@ public class CommunityActivity extends AppCompatActivity {
 
     private ListView listViewGroup;
     private SimpleAdapter simpleAdapter;
-    private TextView test;
+    private Spinner spinnerRegion;
+    private String region;
 
     private BottomNavigationView bottomNav;
     private FirebaseDatabase firebaseDB;
@@ -40,13 +43,20 @@ public class CommunityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_community);
 
         Init();
+
+        listViewGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void Init() {
         //Initial View Objects...
         listViewGroup = findViewById(R.id.listViewGroup);
         bottomNav = findViewById(R.id.communityBottomNav);
-        test = findViewById(R.id.textSub);
+        spinnerRegion = findViewById(R.id.communityRegion);
 
         listViewGroupData = new ArrayList<>();
 
@@ -90,21 +100,33 @@ public class CommunityActivity extends AppCompatActivity {
         });
         //
 
-        //리스트 가져오기
-        GetList();
+        //스피너 초기화
+        spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                listViewGroupData.clear();
+                region = parent.getItemAtPosition(position).toString();
+                GetList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                region = "서울";
+            }
+        });
         //
+
+        //리스트 가져오기
         listViewRefresh = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true){
-                    if(listViewGroupData.size() > 0) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                simpleAdapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            simpleAdapter.notifyDataSetChanged();
+                        }
+                    });
                     try {
                         Thread.sleep(1000);
                     }
@@ -127,9 +149,11 @@ public class CommunityActivity extends AppCompatActivity {
                     DataSnapshot result = task.getResult();
                     for (DataSnapshot data : result.getChildren()){
                         HashMap<String, String> temp = (HashMap<String, String>)data.getValue();
-                        temp.put("textTitle", temp.get("Title"));
-                        temp.put("textCategory", temp.get("Category"));
-                        listViewGroupData.add(temp);
+                        if(temp.get("Region").equals(region)){
+                            temp.put("textTitle", temp.get("Title"));
+                            temp.put("textCategory", temp.get("Category") + " 크루");
+                            listViewGroupData.add(temp);
+                        }
                     }
                 }
             }

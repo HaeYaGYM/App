@@ -51,6 +51,6 @@
         android:layout_weight="1"
         android:background="@drawable/login_shape"
         android:textColor="@color/white"
-        android:text="참여" />
+        android:text="확인" />
 
 </LinearLayout>
