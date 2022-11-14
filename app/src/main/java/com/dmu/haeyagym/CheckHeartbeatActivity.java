@@ -156,16 +156,23 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, permissionList, 1);
         }
         btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(isChecking){
+            btnStartingBeatRate.setText("측정 시작");
+        }else{
+            btnStartingBeatRate.setText("측정 중단");
+        }
+        if(btAdapter == null) {
+            btnStartingBeatRate.setText("기기 찾기");
+        }
     }
 
     public void StartingCheckBeatRate(View view) {
         GetBluetoothAdapter();
-
         if (btAdapter == null) {
             Toast.makeText(getApplicationContext(), "블루투스 페어링이 되지 않았습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        isChecking = !isChecking;
         GetBluetoothDevice();
         if(isChecking == false){
             BluetoothConnect();
@@ -173,6 +180,10 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
         else {
             try {
                 BluetoothDisconnect();
+                Intent intent = new Intent(this, BeatResultActivity.class);
+                intent.putExtra("max", String.valueOf(maxRate));
+                intent.putExtra("avg", String.valueOf(avgRate));
+                startActivity(intent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -278,7 +289,6 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                         textCheckingStatus.setTextColor(getResources().getColor(R.color.maintitle_color));
                         textCheckingStatus.setText("찾음");
                         bluetoothAddress = device.getAddress();
-                        isChecking = !isChecking;
                         break;
                     }else{
                         textCheckingStatus.setText("연동 실패");
@@ -300,7 +310,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             if(maxRate < item)
                 maxRate = item;
         }
-        avgRate = sum / beatList.size();
+        avgRate = (double) (sum / beatList.size());
         beatList.clear();
 
     }

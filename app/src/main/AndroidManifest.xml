@@ -23,7 +23,10 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Haeyagym">
-        <activity android:name=".BoardActivity"></activity>
+        <activity
+            android:name=".BeatResultActivity"
+            android:exported="false" />
+        <activity android:name=".BoardActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".CheckHeartbeatActivity" />
         <activity android:name=".CommunityActivity" />

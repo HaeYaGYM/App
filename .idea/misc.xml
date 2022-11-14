@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/drawable/circle_white.xml" value="0.35" />
+        <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/layout/activity_beat_result.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/layout/activity_board.xml" value="0.15555555555555556" />
+        <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/layout/activity_community.xml" value="0.15555555555555556" />
+        <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/layout/activity_login.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/tw.kim/StudioProjects/HaeYaGymApp/app/src/main/res/layout/group_item.xml" value="0.33" />
       </map>
     </option>
   </component>

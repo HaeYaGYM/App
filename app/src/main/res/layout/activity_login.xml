@@ -66,34 +66,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/naver_login"
-            android:layout_width="220dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/login_shape"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/naverlogo"
-                android:padding="10dp"
-                android:paddingStart="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nanumsquareacr"
-                android:text="@string/naver_login"
-                android:textColor="@color/white"
-                android:textSize="7pt" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/email_login"
             android:layout_width="220dp"
             android:layout_height="48dp"
