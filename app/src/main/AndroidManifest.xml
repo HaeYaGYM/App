@@ -23,6 +23,7 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Haeyagym">
+        <activity android:name=".RegisterActivity"></activity>
         <activity
             android:name=".BeatResultActivity"
             android:exported="false" />
