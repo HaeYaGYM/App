@@ -138,7 +138,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:dividerHeight="10dp"
+                android:divider="@color/white"/>
         </LinearLayout>
         <TextView
             android:id="@+id/empty"

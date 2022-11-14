@@ -74,7 +74,7 @@ public class StartRoutineActivity extends AppCompatActivity {
 
     private boolean isConnected;
     private BluetoothAdapter btAdapter;
-    private String bluetoothAddress;
+    private String bluetoothAddress = "";
     private BluetoothDevice bluetoothWatch;
     private BluetoothSocket bluetoothSocket;
     private InputStream bluetoothInput;
@@ -182,7 +182,7 @@ public class StartRoutineActivity extends AppCompatActivity {
                 //
 
                 //블루투스
-                if(isConnected) {
+                if(isConnected && bluetoothSocket != null) {
 
                     if (bluetoothSocket.isConnected()) {
                         try {
@@ -193,35 +193,37 @@ public class StartRoutineActivity extends AppCompatActivity {
                         }
                     }
                     int byteAvailable = 0;
-                    try {
-                        byteAvailable = bluetoothInput.available();
-                        if (byteAvailable > 0) {
-                            byte[] bytes = new byte[byteAvailable];
-                            bluetoothInput.read(bytes);
-                            for (int i = 0; i < byteAvailable; i++) {
-                                byte comp = bytes[i];
-                                if (comp == '\n') {
-                                    byte[] encodedByte = new byte[readBufferPos];
-                                    System.arraycopy(buffer, 0, encodedByte, 0, encodedByte.length);
-                                    String text = new String(encodedByte, "US-ASCII");
-                                    readBufferPos = 0;
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (Integer.parseInt(text.trim()) > 0){
+                    if(bluetoothInput != null) {
+                        try {
+                            byteAvailable = bluetoothInput.available();
+                            if (byteAvailable > 0) {
+                                byte[] bytes = new byte[byteAvailable];
+                                bluetoothInput.read(bytes);
+                                for (int i = 0; i < byteAvailable; i++) {
+                                    byte comp = bytes[i];
+                                    if (comp == '\n') {
+                                        byte[] encodedByte = new byte[readBufferPos];
+                                        System.arraycopy(buffer, 0, encodedByte, 0, encodedByte.length);
+                                        String text = new String(encodedByte, "US-ASCII");
+                                        readBufferPos = 0;
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (Integer.parseInt(text.trim()) > 0) {
 
-                                                beatList.add(Integer.parseInt(text.trim()));
-                                                Log.d("Test!", text);
+                                                    beatList.add(Integer.parseInt(text.trim()));
+                                                    Log.d("Test!", text);
+                                                }
                                             }
-                                        }
-                                    });
-                                } else {
-                                    buffer[readBufferPos++] = comp;
+                                        });
+                                    } else {
+                                        buffer[readBufferPos++] = comp;
+                                    }
                                 }
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
                 //

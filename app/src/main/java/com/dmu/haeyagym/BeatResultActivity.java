@@ -42,6 +42,8 @@ public class BeatResultActivity extends AppCompatActivity {
             default:
                 throw new IllegalStateException("Unexpected value: " + intentR.getStringExtra("menu"));
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }
