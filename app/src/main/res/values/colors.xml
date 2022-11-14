@@ -7,5 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="maintitle_color">#2186B3</color>
+    <color name="maintitle_color">#FF2186B3</color>
+    <color name="maintitle_color_light">#3FBAF1</color>
+    <color name="group_item_color">#FFFFFF</color>
+    <color name="gray">#3C3C3C</color>
+    <color name="calendar_background_color">#33000000</color>
 </resources>

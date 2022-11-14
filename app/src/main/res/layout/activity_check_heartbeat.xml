@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/heartBeatBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#FFF"
+        app:menu="@menu/menu"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CheckHeartbeatActivity">
+
+
+        <TextView
+            android:id="@+id/beatText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="심박수 측정"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nanumsquareacr"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/textBeatRate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26" />
+
+        <TextView
+            android:id="@+id/textCheckingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="준비"
+            android:textSize="45sp"
+            android:textColor="@color/maintitle_color"
+            android:fontFamily="@font/nanumsquareacb"
+            app:layout_constraintBottom_toTopOf="@+id/textBeatRate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/beatText" />
+
+        <TextView
+            android:id="@+id/textBeatRate"
+            android:layout_width="330dp"
+            android:layout_height="330dp"
+            android:background="@drawable/circle_white"
+            android:elevation="35dp"
+            android:fontFamily="@font/nanumsquareacb"
+            android:gravity="center"
+            android:text="0BPM"
+            android:textColor="@color/maintitle_color"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.47000003" />
+
+        <Button
+            android:id="@+id/btnStartingBeatRate"
+            android:layout_width="166dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.7"
+            android:background="@drawable/login_shape"
+            android:fontFamily="@font/nanumsquareaceb"
+            android:onClick="StartingCheckBeatRate"
+            android:text="시작"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textBeatRate"
+            app:layout_constraintVertical_bias="0.32" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

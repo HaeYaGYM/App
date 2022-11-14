@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommunityActivity">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/communityBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#FFF"
+        app:menu="@menu/menu"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="15"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:weightSum="15">
+
+            <ImageView
+                android:id="@+id/imageLocation"
+                android:layout_marginVertical="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/mark" />
+
+            <Spinner
+                android:id="@+id/communityRegion"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:entries="@array/region" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7.2" />
+
+            <Button
+                android:id="@+id/btnAddGroup"
+                android:onClick="AddGroup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.8"
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/login_shape"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nanumsquareacb"
+                android:textSize="12sp"
+                android:text="추가" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/nanumsquareaceb"
+                    android:text="날씨 좋은 날,\n동네 주민들과\n운동 함께 하실래요?"
+                    android:textColor="@color/black"
+                    android:lineSpacingExtra="10sp"
+                    android:textSize="23sp"/>
+
+                <TextView
+                    android:id="@+id/textMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/nanumsquareacr"
+                    android:gravity="center_vertical"
+                    android:text="해야짐 커뮤니티에서\n다양한 모임을 확인하세요!"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                app:srcCompat="@drawable/appicon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8.1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textRecommendCommunity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nanumsquareaceb"
+                android:padding="10dp"
+                android:text="주변 모임 추천"
+                android:textSize="18sp"/>
+
+            <ListView
+                android:id="@+id/listViewGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:focusable="false"
+                android:dividerHeight="10dp"
+                android:divider="@color/white"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            />
+    </LinearLayout>
+</RelativeLayout>
