@@ -181,8 +181,9 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             try {
                 BluetoothDisconnect();
                 Intent intent = new Intent(this, BeatResultActivity.class);
-                intent.putExtra("max", String.valueOf(maxRate));
-                intent.putExtra("avg", String.valueOf(avgRate));
+                intent.putExtra("max", maxRate);
+                intent.putExtra("avg", avgRate);
+                intent.putExtra("menu", "beatRate");
                 startActivity(intent);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -254,7 +255,8 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             textBeatRate.setText(text + "BPM");
-                                            beatList.add(Integer.parseInt(text.trim()));
+                                            if(Integer.parseInt(text.trim()) > 0)
+                                                beatList.add(Integer.parseInt(text.trim()));
                                         }
                                     });
                                 }else{

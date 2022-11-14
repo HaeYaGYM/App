@@ -115,6 +115,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 dbRef.child(String.valueOf(brdid)).child("Category").setValue(category);
                 dbRef.child(String.valueOf(brdid)).child("Description").setValue(textDescription.getText().toString());
                 dbRef.child(String.valueOf(brdid)).child("UID").setValue("Example@xxx.com");
+
                 finish();
             }
         });

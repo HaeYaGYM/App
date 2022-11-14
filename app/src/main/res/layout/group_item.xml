@@ -44,13 +44,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonEnterGroup"
+        android:id="@+id/btnEnterGroup"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:background="@drawable/login_shape"
         android:textColor="@color/white"
-        android:text="확인" />
+        android:text="확인"
+        android:focusable="false"/>
 
 </LinearLayout>

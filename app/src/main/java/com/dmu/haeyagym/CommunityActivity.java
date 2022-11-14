@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -47,7 +48,19 @@ public class CommunityActivity extends AppCompatActivity {
         listViewGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Button button = view.findViewById(R.id.btnEnterGroup);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+                        intent.putExtra("title", listViewGroupData.get(position).get("Title"));
+                        intent.putExtra("description", listViewGroupData.get(position).get("Description"));
+                        intent.putExtra("date", listViewGroupData.get(position).get("Date"));
+                        intent.putExtra("uid", listViewGroupData.get(position).get("UID"));
+                        intent.putExtra("category", listViewGroupData.get(position).get("Category"));
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }
@@ -152,6 +165,10 @@ public class CommunityActivity extends AppCompatActivity {
                         if(temp.get("Region").equals(region)){
                             temp.put("textTitle", temp.get("Title"));
                             temp.put("textCategory", temp.get("Category") + " 크루");
+                            temp.put("Region", temp.get("Region"));
+                            temp.put("Date", temp.get("Date"));
+                            temp.put("Description", temp.get("Description"));
+                            temp.put("UID", temp.get("UID"));
                             listViewGroupData.add(temp);
                         }
                     }

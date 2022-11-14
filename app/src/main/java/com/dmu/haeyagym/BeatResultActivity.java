@@ -11,6 +11,7 @@ public class BeatResultActivity extends AppCompatActivity {
 
     private TextView textMaxRate;
     private TextView textAverageRate;
+    private Intent intentR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +25,23 @@ public class BeatResultActivity extends AppCompatActivity {
         textMaxRate = findViewById(R.id.textMaxRate);
         textAverageRate = findViewById(R.id.textAverageRate);
 
-        Intent intentR = getIntent();
-        textMaxRate.setText(intentR.getStringExtra("max"));
-        textAverageRate.setText(intentR.getStringExtra("avg"));
-
+        intentR = getIntent();
+        textMaxRate.setText(String.valueOf(intentR.getIntExtra("max", 0)));
+        textAverageRate.setText(String.valueOf(intentR.getDoubleExtra("avg", 0.0)));
     }
 
     public void ReturnMenu(View view) {
-        finish();
+        Intent intent;
+        switch (intentR.getStringExtra("menu")){
+            case "timer":
+                intent = new Intent(getApplicationContext(), TimerActivity.class);
+                break;
+            case "beatRate":
+                intent = new Intent(getApplicationContext(), CheckHeartbeatActivity.class);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + intentR.getStringExtra("menu"));
+        }
+        startActivity(intent);
     }
 }
