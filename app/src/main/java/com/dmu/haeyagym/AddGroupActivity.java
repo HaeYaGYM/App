@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -114,7 +115,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 dbRef.child(String.valueOf(brdid)).child("Region").setValue(region);
                 dbRef.child(String.valueOf(brdid)).child("Category").setValue(category);
                 dbRef.child(String.valueOf(brdid)).child("Description").setValue(textDescription.getText().toString());
-                dbRef.child(String.valueOf(brdid)).child("UID").setValue("Example@xxx.com");
+                dbRef.child(String.valueOf(brdid)).child("UID").setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
                 finish();
             }

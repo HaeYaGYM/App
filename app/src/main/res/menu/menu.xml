@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/item_frag1"
-        android:icon="@drawable/appicon"
+        android:icon="@drawable/ic_baseline_group_24"
         android:title="item_1"/>
     <item
         android:id="@+id/item_frag2"
@@ -10,10 +10,10 @@
         android:title="item_2"/>
     <item
         android:id="@+id/item_frag3"
-        android:icon="@drawable/appicon"
+        android:icon="@drawable/ic_baseline_timer_24"
         android:title="item_3"/>
     <item
         android:id="@+id/item_frag4"
-        android:icon="@drawable/appicon"
+        android:icon="@drawable/ic_baseline_calendar_today_24"
         android:title="item_4"/>
 </menu>

@@ -41,13 +41,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Google Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation platform('com.google.firebase:firebase-bom:31.0.3')
     implementation 'com.google.android.gms:play-services-auth:20.2.0' // material design 적용
     implementation 'com.google.firebase:firebase-analytics:21.0.0' // Firebase 앱 분석
     implementation 'com.google.firebase:firebase-core:21.0.0'  // Firebase 코어
     implementation 'com.google.firebase:firebase-database:20.1.0' //Firebase DB
     implementation 'com.google.firebase:firebase-auth:21.0.5'  // Firebase 인증
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1' // Firebase 인증2
+    implementation 'com.google.firebase:firebase-auth'
     implementation 'com.github.bumptech.glide:glide:4.9.0' // google glide image 로딩
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'// google glide image 로딩2
 

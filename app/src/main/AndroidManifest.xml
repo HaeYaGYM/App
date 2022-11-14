@@ -23,19 +23,19 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Haeyagym">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".CommunityActivity"></activity>
         <activity
             android:name=".BeatResultActivity"
             android:exported="false" />
         <activity android:name=".BoardActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".CheckHeartbeatActivity" />
-        <activity android:name=".CommunityActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".TimerActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".StartRoutineActivity" />
         <activity android:name=".CalendarActivity" />
         <activity
-            android:name=".TimerActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>

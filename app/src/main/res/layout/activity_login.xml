@@ -6,91 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/loginImageView"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/appicon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/loginTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/nanumsquareaceb"
-        android:text="@string/login_title"
-        android:textColor="@color/maintitle_color"
-        android:textSize="12pt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginImageView" />
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTextView">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/google_login"
-            android:layout_width="220dp"
-            android:layout_height="48dp"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
-            android:background="@drawable/login_shape"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/nanumsquareaceb"
+            android:text="로그인"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/googlelogo"
-                android:padding="10dp"
-                android:paddingStart="30dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/nanumsquareaceb"
+            android:text="어서오세요. 오늘도 해야짐과 함께!"
+            android:textColor="@color/light_gray" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nanumsquareacr"
-                android:text="@string/google_login"
-                android:textColor="@color/white"
-                android:textSize="7pt" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/textLoginEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:ems="15"
+            android:inputType="textEmailAddress"
+            android:hint="Email..." />
+
+        <EditText
+            android:id="@+id/textLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Password" />
 
         <LinearLayout
-            android:id="@+id/email_login"
-            android:layout_width="220dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/login_shape"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginTop="72dp">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="20dp"
-                android:background="@drawable/emaillogo"
-                android:padding="10dp"
-                android:paddingStart="30dp" />
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="121dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/login_shape"
+                android:onClick="Login"
+                android:text="확인"
+                android:textColor="@color/white" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nanumsquareacr"
-                android:text="@string/email_login"
-                android:textColor="@color/white"
-                android:textSize="7pt" />
-
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btnToRegister"
+                android:layout_width="121dp"
+                android:layout_height="39dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/login_shape"
+                android:onClick="ToRegister"
+                android:text="회원가입"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>
