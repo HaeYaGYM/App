@@ -30,7 +30,9 @@
         <activity android:name=".BoardActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".CheckHeartbeatActivity" />
-        <activity android:name=".TimerActivity" />
+        <activity android:name=".TimerActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".StartRoutineActivity" />
         <activity android:name=".CalendarActivity" />

@@ -197,9 +197,6 @@ public class TimerActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.item_frag3:
-                        intent = new Intent(getApplicationContext(), TimerActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.item_frag4:
                         intent = new Intent(getApplicationContext(), CalendarActivity.class);

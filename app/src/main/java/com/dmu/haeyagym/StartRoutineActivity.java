@@ -81,7 +81,7 @@ public class StartRoutineActivity extends AppCompatActivity {
     private int readBufferPos;
     private ArrayList<Integer> beatList;
     private int maxRate;
-    private double avgRate;
+    private int avgRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,17 +149,25 @@ public class StartRoutineActivity extends AppCompatActivity {
                                 db.execSQL(strSQL);
                                 idx++;
                                 if(idx == listCount){
-                                    if(isConnected && beatList.size() > 0){
-                                        ResultBeatRate();
-                                        timer.cancel();
+                                    if(isConnected){
                                         Intent intent = new Intent(getApplicationContext(), BeatResultActivity.class);
-                                        intent.putExtra("max", maxRate);
-                                        intent.putExtra("avg", avgRate);
-                                        intent.putExtra("menu", "timer");
-                                        try {
-                                            bluetoothSocket.close();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                        timer.cancel();
+                                        if(beatList.size() > 0){
+
+                                            ResultBeatRate();
+                                            intent.putExtra("max", maxRate);
+                                            intent.putExtra("avg", avgRate);
+                                            intent.putExtra("menu", "timer");
+                                            try {
+                                                bluetoothSocket.close();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        else{
+                                            intent.putExtra("max", 0);
+                                            intent.putExtra("avg", 0);
+                                            intent.putExtra("menu", "timer");
                                         }
                                         startActivity(intent);
                                     }else{
@@ -391,7 +399,7 @@ public class StartRoutineActivity extends AppCompatActivity {
             if(maxRate < item)
                 maxRate = item;
         }
-        avgRate = (double) (sum / beatList.size());
+        avgRate = (sum / beatList.size());
         beatList.clear();
 
     }

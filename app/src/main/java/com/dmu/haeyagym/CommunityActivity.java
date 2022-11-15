@@ -4,14 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,8 +39,6 @@ public class CommunityActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private Thread listViewRefresh;
 
-    private TextView communityTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +46,23 @@ public class CommunityActivity extends AppCompatActivity {
 
         Init();
 
-        String content = communityTitle.getText().toString();
-        SpannableString spannableString = new SpannableString(content);
-
-        String word = "날씨 좋은 날,";
-        int start = content.indexOf(word);
-        int end = start + word.length();
-
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#2EA7E0")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new RelativeSizeSpan(1.0f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        communityTitle.setText(spannableString);
-
-        listViewGroup.setOnItemClickListener((parent, view, position, id) -> {
-            Button button = view.findViewById(R.id.btnEnterGroup);
-            button.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
-                intent.putExtra("title", listViewGroupData.get(position).get("Title"));
-                intent.putExtra("description", listViewGroupData.get(position).get("Description"));
-                intent.putExtra("date", listViewGroupData.get(position).get("Date"));
-                intent.putExtra("uid", listViewGroupData.get(position).get("UID"));
-                intent.putExtra("category", listViewGroupData.get(position).get("Category"));
-                startActivity(intent);
-            });
+        listViewGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Button button = view.findViewById(R.id.btnEnterGroup);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+                        intent.putExtra("title", listViewGroupData.get(position).get("Title"));
+                        intent.putExtra("description", listViewGroupData.get(position).get("Description"));
+                        intent.putExtra("date", listViewGroupData.get(position).get("Date"));
+                        intent.putExtra("uid", listViewGroupData.get(position).get("UID"));
+                        intent.putExtra("category", listViewGroupData.get(position).get("Category"));
+                        startActivity(intent);
+                    }
+                });
+            }
         });
     }
 
@@ -87,7 +71,6 @@ public class CommunityActivity extends AppCompatActivity {
         listViewGroup = findViewById(R.id.listViewGroup);
         bottomNav = findViewById(R.id.communityBottomNav);
         spinnerRegion = findViewById(R.id.communityRegion);
-        communityTitle = findViewById(R.id.textSub);
 
         listViewGroupData = new ArrayList<>();
 
@@ -202,7 +185,6 @@ public class CommunityActivity extends AppCompatActivity {
 
     public void Logout(View view) {
         FirebaseAuth.getInstance().signOut();
-        finish();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 }

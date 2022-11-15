@@ -61,13 +61,12 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
     private int readBufferPos;
     private ArrayList<Integer> beatList;
     private int maxRate;
-    private double avgRate;
+    private int avgRate;
     private boolean isChecking;
 
     private BluetoothSocket bluetoothSocket;
     private BluetoothDevice bluetoothWatch;
     private InputStream bluetoothInput;
-    private OutputStream bluetoothOutput;
     //
 
     @Override
@@ -184,6 +183,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
                 intent.putExtra("max", maxRate);
                 intent.putExtra("avg", avgRate);
                 intent.putExtra("menu", "beatRate");
+                finish();
                 startActivity(intent);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -223,7 +223,6 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             textCheckingStatus.setText("측정 중...");
             try {
                 bluetoothInput = bluetoothSocket.getInputStream();
-                bluetoothOutput = bluetoothSocket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
                 finish();
@@ -312,7 +311,7 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
             if(maxRate < item)
                 maxRate = item;
         }
-        avgRate = (double) (sum / beatList.size());
+        avgRate = (sum / beatList.size());
         beatList.clear();
 
     }
@@ -321,7 +320,6 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-
         try {
             bluetoothSocket.close();
 
@@ -331,12 +329,6 @@ public class CheckHeartbeatActivity extends AppCompatActivity {
 
         try {
             bluetoothInput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            bluetoothOutput.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

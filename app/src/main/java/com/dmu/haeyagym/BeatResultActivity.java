@@ -27,7 +27,7 @@ public class BeatResultActivity extends AppCompatActivity {
 
         intentR = getIntent();
         textMaxRate.setText("최대 심박수는 "+ String.valueOf(intentR.getIntExtra("max", 0)) + "입니다.");
-        textAverageRate.setText("평균 심박수는 " + String.valueOf(intentR.getDoubleExtra("avg", 0.0)) + "입니다.");
+        textAverageRate.setText("평균 심박수는 " + String.valueOf(intentR.getIntExtra("avg", 0)) + "입니다.");
     }
 
     public void ReturnMenu(View view) {

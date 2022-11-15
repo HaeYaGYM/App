@@ -146,9 +146,6 @@ public class CalendarActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.item_frag4:
-                        intent = new Intent(getApplicationContext(), CalendarActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;
